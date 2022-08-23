@@ -1,4 +1,15 @@
-# Getting Started with Create React App
+# React Coding Assignment For Bidscale
+
+## Description
+This project makes use of the following technologies:
+- React
+- TypeScript
+- Material UI
+- Formik
+- Yup
+- Notistack [ MUI companion for the alerts ]
+- Context as Global State
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
