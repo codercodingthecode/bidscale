@@ -10,6 +10,10 @@ This project makes use of the following technologies:
 - Notistack [ MUI companion for the alerts ]
 - Context as Global State
 
+## Project UI
+The project is deployed to aws using automatic deployment from github
+https://main.d38iiy5z4t00in.amplifyapp.com/
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
