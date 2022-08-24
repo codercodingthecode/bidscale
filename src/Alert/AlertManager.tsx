@@ -1,21 +1,20 @@
-import React, { useEffect} from "react";
-import 'react-toastify/dist/ReactToastify.min.css';
-import {useAlertReducer} from "./AlertReducer";
-import {AlertComponent} from "./AlertComponent";
-import {SnackbarProps, SnackbarProvider, useSnackbar } from "notistack";
+import React, { useEffect } from "react";
+import { useAlertReducer } from "./AlertReducer";
+import { AlertComponent } from "./AlertComponent";
+import { SnackbarProvider, useSnackbar } from "notistack";
 
 const MAX_SNACKBAR_ITEMS = 10;
 
-// ALertManager is a utility component that manages the snackbar messages making use of the Reducer.
+// AlertManager is a utility component that manages the snackbar messages making use of the Reducer.
 // Uses the notistack library to display the snackbar messages that are stored in the reducer and have yet to be displayed.
 // Provides a functionality to clean up any alerts in the store that have been expired or closed by the user.
-const AlertManagerComp: React.FC<SnackbarProps> = (props) => {
+const AlertManagerComp: React.FC = () => {
     const {state, dispatch }= useAlertReducer();
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
     useEffect(() => {
         state.forEach(async (alert) => {
-            if (alert.isViewed === false) {
+            if (!alert.isViewed) {
                 dispatch({type: 'SET_VIEWED', payload: alert});
                 enqueueSnackbar(alert.text, {
                     variant: alert.type,
@@ -42,6 +41,7 @@ const AlertManagerComp: React.FC<SnackbarProps> = (props) => {
                         });
             }
         } );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
 
     return null

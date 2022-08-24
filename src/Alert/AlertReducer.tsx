@@ -1,11 +1,11 @@
 import {AlertModel} from "./AlertModel";
-import React, {useContext} from "react";
+import {useContext} from "react";
 import {AlertContext} from "./AlertStore";
 import { v4 as uuid } from 'uuid';
 
 // Provide type definition for the AlertReducer
 export type OptionalAlertModelKeys<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-export type OptionalAlertProps = OptionalAlertModelKeys<AlertModel, 'id' | 'isViewed' | 'id' |'title' | 'timeout' | 'link'>;
+export type OptionalAlertProps = OptionalAlertModelKeys<AlertModel, 'isViewed' | 'id' |'title' | 'timeout' | 'link'>;
 export  const ALERT_TIMEOUT = 10000;
 
 export interface AlertAction {
