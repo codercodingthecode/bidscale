@@ -1,7 +1,9 @@
 import React from 'react';
 import {AlertExample} from "./Alert/AlertExample";
 import {Container, Grid, Typography} from "@mui/material";
-import {AlertManager} from "./Alert/AlertManager";
+// import {AlertManager} from "./Alert/AlertManager";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -11,7 +13,8 @@ function App() {
                 <Typography variant={'h4'} color={'primary'} align={'center'}>Alert Example</Typography>
             </Grid>
               <Grid item xs={12}>
-                  <AlertManager />
+                  {/*<AlertManager />*/}
+                  <ToastContainer />
                   <AlertExample />
             </Grid>
           </Grid>

@@ -10,15 +10,13 @@ const MAX_SNACKBAR_ITEMS = 10;
 // Uses the notistack library to display the snackbar messages that are stored in the reducer and have yet to be displayed.
 // Provides a functionality to clean up any alerts in the store that have been expired or closed by the user.
 const AlertManagerComp: React.FC = () => {
-    const state = useSelector((state: RootState) => state.alertSlice);
+    const alerts = useSelector((state: RootState) => state.alertSlice);
     const dispatch = useDispatch<RootDispatch>();
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
     useEffect(() => {
-        state.forEach(async (alert) => {
+        alerts.forEach(async (alert) => {
             if (!alert.isViewed) {
-                dispatch.alertSlice.viewedAlert(alert.id)
-
                 enqueueSnackbar(alert.text, {
                     variant: alert.type,
                     key: alert.id,
@@ -35,17 +33,10 @@ const AlertManagerComp: React.FC = () => {
                         }
                     }
                 });
-                await new Promise<void>((resolve) => {
-                            let timeoutid = setTimeout(() => {
-                                dispatch.alertSlice.removeAlert(alert.id);
-                                clearTimeout(timeoutid);
-                                resolve();
-                            } , +alert.timeout);
-                        });
             }
         } );
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state]);
+    }, [alerts]);
 
     return null
 }
