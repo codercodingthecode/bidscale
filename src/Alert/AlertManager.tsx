@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useAlertReducer } from "./AlertReducer";
 import { AlertComponent } from "./AlertComponent";
 import { SnackbarProvider, useSnackbar } from "notistack";
+import {useDispatch, useSelector} from "react-redux";
+import {RootDispatch, RootState} from "../Store";
 
 const MAX_SNACKBAR_ITEMS = 10;
 
@@ -9,13 +10,15 @@ const MAX_SNACKBAR_ITEMS = 10;
 // Uses the notistack library to display the snackbar messages that are stored in the reducer and have yet to be displayed.
 // Provides a functionality to clean up any alerts in the store that have been expired or closed by the user.
 const AlertManagerComp: React.FC = () => {
-    const {state, dispatch }= useAlertReducer();
+    const state = useSelector((state: RootState) => state.alertSlice);
+    const dispatch = useDispatch<RootDispatch>();
     const {enqueueSnackbar, closeSnackbar} = useSnackbar();
 
     useEffect(() => {
         state.forEach(async (alert) => {
             if (!alert.isViewed) {
-                dispatch({type: 'SET_VIEWED', payload: alert});
+                dispatch.alertSlice.viewedAlert(alert.id)
+
                 enqueueSnackbar(alert.text, {
                     variant: alert.type,
                     key: alert.id,
@@ -28,13 +31,13 @@ const AlertManagerComp: React.FC = () => {
                     },
                     onClose: (event, reason) => {
                         if (reason === 'instructed' || reason === 'timeout') {
-                            dispatch({type: 'REMOVE_ALERT', payload: alert});
+                            dispatch.alertSlice.removeAlert(alert.id);
                         }
                     }
                 });
                 await new Promise<void>((resolve) => {
                             let timeoutid = setTimeout(() => {
-                                dispatch({type: 'REMOVE_ALERT', payload: alert});
+                                dispatch.alertSlice.removeAlert(alert.id);
                                 clearTimeout(timeoutid);
                                 resolve();
                             } , +alert.timeout);

@@ -1,14 +1,16 @@
 import {Button, Grid, MenuItem, TextField } from "@mui/material";
-import { AlertType} from "./AlertModel";
-import {ALERT_TIMEOUT,  OptionalAlertProps, useAlertReducer} from "./AlertReducer";
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import {useDispatch} from "react-redux";
+import {RootDispatch} from "../Store";
+import {ALERT_TIMEOUT, OptionalAlertProps} from "../Store/AlertV2/AlertSliceV2";
+import {AlertType} from "../Store/AlertV2/AlertModel";
 
 // Example of a component that uses the AlertReducer hook to dispatch an Alert to queue.
 // Used Yup to validate the form.
 // Used Formik to handle the form.
 export const AlertExample: React.FC = () => {
-    const {dispatch} = useAlertReducer();
+    const dispatch = useDispatch<RootDispatch>();
 
     const formik = useFormik<OptionalAlertProps>({
         initialValues: {
@@ -25,9 +27,9 @@ export const AlertExample: React.FC = () => {
             type: Yup.string().required('Type is required'),
         }),
         onSubmit: values => {
-            dispatch({type: 'ADD_ALERT', payload: values});
+            dispatch.alertSlice.addAlert(values)
             // Reset the form after submitting. Comment below if you rather not have the form reset after submitting.
-            formik.resetForm();
+            // formik.resetForm();
         }
     });
 

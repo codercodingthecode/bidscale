@@ -1,5 +1,5 @@
 import {Alert, AlertProps, AlertTitle, Link, Typography} from "@mui/material";
-import {AlertModel } from "./AlertModel";
+import {AlertModel} from "../Store/AlertV2/AlertModel";
 
 interface AlertComponentProps extends Partial<AlertProps> {
     alert: AlertModel;
